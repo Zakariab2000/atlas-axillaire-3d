@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="icon" href="data:,">
+<title>Région axillaire — Atlas 3D interactif</title>
+<style>
+  :root{
+    --bg1:#0b1526; --bg2:#060b14;
+    --panel:rgba(13,24,42,.92); --line:rgba(120,160,220,.18);
+    --txt:#e8eef7; --dim:#9db1cc; --accent:#f0b429; --accent2:#4fc3f7;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1200px 800px at 60% 35%, var(--bg1), var(--bg2));
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--txt);}
+  #scene{position:fixed;inset:0;}
+  #scene canvas{display:block;}
+  .hud{position:fixed;z-index:10;}
+  /* ---- top bar ---- */
+  #topbar{top:0;left:0;right:0;display:flex;align-items:center;gap:10px;padding:10px 14px;
+    background:linear-gradient(180deg,rgba(6,11,20,.85),rgba(6,11,20,0));pointer-events:none;}
+  #topbar .t{pointer-events:auto;}
+  #title{font-weight:700;font-size:17px;letter-spacing:.3px;}
+  #title small{display:block;font-weight:400;font-size:11px;color:var(--dim);}
+  /* ---- control panel ---- */
+  #panel{top:64px;left:12px;width:250px;background:var(--panel);border:1px solid var(--line);
+    border-radius:14px;padding:12px;backdrop-filter:blur(8px);max-height:calc(100% - 140px);overflow:auto;}
+  #panel h3{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);}
+  #search{width:100%;padding:9px 10px;border-radius:9px;border:1px solid var(--line);
+    background:#0a1424;color:var(--txt);font-size:14px;outline:none;}
+  #search:focus{border-color:var(--accent2);}
+  #results{margin-top:6px;display:flex;flex-direction:column;gap:4px;max-height:180px;overflow:auto;}
+  .res{padding:8px 9px;border-radius:8px;background:rgba(80,140,220,.08);border:1px solid transparent;
+    font-size:13px;cursor:pointer;text-align:left;color:var(--txt);width:100%;}
+  .res:hover{border-color:var(--accent2);}
+  .res .tag{float:right;font-size:10px;color:var(--dim);}
+  .layer{display:flex;align-items:center;gap:9px;padding:8px 4px;font-size:14px;cursor:pointer;user-select:none;}
+  .layer input{accent-color:var(--accent2);width:17px;height:17px;cursor:pointer;}
+  .dot{width:11px;height:11px;border-radius:50%;flex:none;box-shadow:0 0 6px rgba(0,0,0,.4);}
+  .layer .n{margin-left:auto;font-size:11px;color:var(--dim);}
+  .layer.disabled{opacity:.55;}
+  .layer .warn{font-size:10px;color:var(--accent);}
+  #reset{margin-top:10px;width:100%;padding:10px;border:none;border-radius:10px;cursor:pointer;
+    background:linear-gradient(135deg,#1d6fb8,#155a94);color:#fff;font-size:14px;font-weight:600;}
+  #reset:active{transform:scale(.98);}
+  /* ---- info card ---- */
+  #info{top:64px;right:12px;width:min(340px,calc(100vw - 24px));background:var(--panel);
+    border:1px solid var(--line);border-radius:14px;padding:16px;backdrop-filter:blur(8px);
+    transform:translateX(calc(100% + 20px));transition:transform .28s ease;max-height:calc(100% - 150px);overflow:auto;}
+  #info.open{transform:none;}
+  #info h2{margin:0 0 4px;font-size:18px;color:var(--accent);}
+  #info .sys{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+  #info p{font-size:14px;line-height:1.55;color:var(--txt);margin:0 0 10px;white-space:pre-line;}
+  #info .badge{display:inline-block;font-size:11px;background:rgba(240,180,41,.15);color:var(--accent);
+    border:1px solid rgba(240,180,41,.4);border-radius:20px;padding:3px 10px;margin-bottom:10px;}
+  #close{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--dim);
+    font-size:20px;cursor:pointer;padding:4px 8px;}
+  /* ---- loader / footer ---- */
+  #loader{position:fixed;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;
+    background:var(--bg2);z-index:50;transition:opacity .4s;}
+  #loader.done{opacity:0;pointer-events:none;}
+  .spin{width:46px;height:46px;border-radius:50%;border:4px solid rgba(120,160,220,.2);border-top-color:var(--accent2);animation:sp 1s linear infinite;}
+  @keyframes sp{to{transform:rotate(360deg);}}
+  #loadmsg{font-size:13px;color:var(--dim);}
+  #attrib{bottom:8px;left:0;right:0;text-align:center;font-size:10.5px;color:rgba(157,177,204,.75);pointer-events:none;padding:0 12px;}
+  #hint{bottom:30px;left:0;right:0;text-align:center;font-size:12px;color:var(--dim);pointer-events:none;
+    transition:opacity .6s;}
+  @media (max-width:640px){
+    #panel{width:200px;top:58px;padding:10px;}
+    #title{font-size:15px;}
+    #info{top:auto;bottom:12px;right:12px;left:12px;width:auto;max-height:46%;}
+    #hint{bottom:46px;font-size:11px;}
+  }
+</style>
+</head>
+<body>
+<div id="scene"></div>
+
+<div class="hud" id="topbar">
+  <div class="t" id="title">Région axillaire — Atlas 3D<small>Creux axillaire · toucher une structure pour sa fiche</small></div>
+</div>
+
+<div class="hud" id="panel">
+  <h3>Rechercher</h3>
+  <input id="search" type="search" placeholder="Ex : axillaire, plexus…" autocomplete="off">
+  <div id="results"></div>
+  <h3 style="margin-top:14px">Couches</h3>
+  <div id="layers"></div>
+  <button id="reset">⟲ Réinitialiser la vue</button>
+</div>
+
+<div class="hud" id="info">
+  <button id="close" aria-label="Fermer">×</button>
+  <h2 id="infoname"></h2>
+  <div class="sys" id="infosys"></div>
+  <div id="infobadge"></div>
+  <p id="infodesc"></p>
+</div>
+
+<div class="hud" id="hint">Glisser : pivoter · Pincer : zoomer · Toucher une structure : fiche</div>
+<div class="hud" id="attrib">Modèles 3D : BodyParts3D © Database Center for Life Science (DBCLS) — CC BY-SA 2.1 JP / CC BY 4.0 · Données : adulte masculin</div>
+
+<div id="loader"><div class="spin"></div><div id="loadmsg">Chargement des modèles…</div></div>
+
+<script type="importmap">
+{"imports":{
+  "three":"./vendor/three/three.module.js",
+  "three/addons/":"./vendor/three/addons/"
+}}
+</script>
+<!-- __EMBEDDED__ -->
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+/* Fiches sans modèle 3D (absents de BodyParts3D) — texte du cours */
+const INFO_ONLY = [
+ {id:"plexus_brachial", nom:"Plexus brachial", layer:"nerfs", couleur:"#f5d547",
+  desc:"ORIGINE :\n• C5, C6 → tronc primaire supérieur\n• C7 → tronc primaire moyen\n• C8, D1 → tronc primaire inférieur\n\nChaque tronc se divise en branches postérieure et antérieure :\n• les 3 branches postérieures → tronc secondaire postérieur\n• branches antérieures des troncs supérieur et moyen → tronc secondaire antéro-externe\n• branche antérieure du tronc inférieur → tronc secondaire antéro-interne\n\nCollatérales : nerfs du grand et petit pectoral, du sous-scapulaire, du grand dorsal, du grand rond et du grand dentelé.\n\nBRANCHES TERMINALES :\n• postérieur → nerf radial et nerf axillaire (circonflexe)\n• antéro-latéral → nerf musculo-cutané et racine latérale du médian\n• antéro-médial → racine médiale du médian (rejoint la racine latérale en avant de l'artère axillaire), nerf ulnaire (cubital), cutanés médiaux de l'avant-bras et du bras.",
+  noModel:true},
+ {id:"lymphatiques", nom:"Lymphatiques — nœuds axillaires", layer:"lymphatiques", couleur:"#58d68d",
+  desc:"Les nœuds axillaires reçoivent tous les lymphatiques du membre supérieur, d'une partie des parois thoracique et abdominale, et surtout de la glande mammaire.\n\nCINQ GROUPES : huméraux, pectoraux, sous-scapulaires, centraux et apicaux.\n\nLes lymphatiques sortant du groupe apical forment un tronc sous-clavier qui rejoint le système veineux à droite, et le canal thoracique à gauche.\n\nIntérêt clinique : palpation des adénopathies axillaires.",
+  noModel:true}
+];
+
+const LAYERS = [
+ {id:"os", nom:"Os", couleur:"#e8dcc3"},
+ {id:"muscles", nom:"Muscles", couleur:"#b03a2e"},
+ {id:"arteres", nom:"Artères", couleur:"#e74c3c"},
+ {id:"veines", nom:"Veines", couleur:"#2e86de"},
+ {id:"nerfs", nom:"Nerfs", couleur:"#f5d547", infoOnly:true},
+ {id:"lymphatiques", nom:"Lymphatiques", couleur:"#58d68d", infoOnly:true},
+];
+const LAYER_NOM = Object.fromEntries(LAYERS.map(l=>[l.id,l.nom]));
+
+/* ---------- scène ---------- */
+const container = document.getElementById('scene');
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+container.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x070d18, 0.0016);
+const camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, 1, 8000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08;
+
+scene.add(new THREE.HemisphereLight(0xcfe4ff, 0x1a2436, 1.15));
+const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(300, 500, 400); scene.add(key);
+const rim = new THREE.DirectionalLight(0x6fb7ff, 0.7); rim.position.set(-400, 200, -300); scene.add(rim);
+
+const world = new THREE.Group(); scene.add(world);
+const entryByMesh = new Map();
+const entries = [];   // {id,nom,layer,couleur,desc,meshes:[],bbox,noModel}
+
+/* ---------- chargement ---------- */
+const loadmsg = document.getElementById('loadmsg');
+async function getSource(){
+  if (window.__EMBEDDED__) {
+    return {manifest: window.__EMBEDDED__.manifest, urlOf: id => window.__EMBEDDED__.blobs[id]};
+  }
+  const m = await (await fetch('models/manifest.json')).json();
+  return {manifest: m, urlOf: id => 'models/' + id + '.glb'};
+}
+
+const loader = new GLTFLoader();
+function loadOne(url){
+  return new Promise((res, rej)=>loader.load(url, res, undefined, rej));
+}
+
+function registerEntry(e){
+  entries.push(e);
+  e.meshes.forEach(m=>entryByMesh.set(m, e));
+}
+
+async function build(){
+  const src = await getSource();
+  let done = 0;
+  for (const m of src.manifest){
+    loadmsg.textContent = `Chargement… ${++done}/${src.manifest.length} — ${m.nom}`;
+    try{
+      const gltf = await loadOne(src.urlOf(m.id));
+      const meshes = [];
+      gltf.scene.traverse(o=>{
+        if (o.isMesh){
+          o.material = new THREE.MeshStandardMaterial({
+            color:new THREE.Color(m.couleur), roughness:0.55, metalness:0.08});
+          o.userData.eid = m.id;
+          meshes.push(o); world.add(o);
+        }
+      });
+      const bbox = new THREE.Box3();
+      meshes.forEach(x=>bbox.expandByObject(x));
+      registerEntry({...m, meshes, bbox, noModel:false});
+    }catch(err){ console.warn('Échec chargement', m.id, err); }
+  }
+  INFO_ONLY.forEach(e=>registerEntry({...e, meshes:[], bbox:null, noModel:true}));
+  document.getElementById('loader').classList.add('done');
+  buildLayers(); fitInitial(); animate();
+  setTimeout(()=>document.getElementById('hint').style.opacity=0, 7000);
+}
+
+/* ---------- vue initiale : centrée sur l'artère axillaire ---------- */
+function fitInitial(){
+  const ax = entries.find(e=>e.id==='artere_axillaire');
+  let target = new THREE.Vector3(0,0,0), dist = 600;
+  if (ax && ax.bbox){
+    ax.bbox.getCenter(target); dist = 260;
+  } else {
+    const all = new THREE.Box3(); entries.forEach(e=>e.bbox&&all.expandByBox(e.bbox));
+    if (!all.isEmpty()){ all.getCenter(target); dist = all.getSize(new THREE.Vector3()).length()*1.1; }
+  }
+  controls.target.copy(target);
+  // vue antéro-latérale droite ; recule sur petit écran
+  if (camera.aspect < 0.8) dist *= 1.6;
+  camera.position.set(target.x - dist*0.55, target.y + dist*0.35, target.z + dist*0.75);
+  camera.lookAt(target);
+  controls.update();
+}
+document.getElementById('reset').onclick = fitInitial;
+
+/* ---------- couches ---------- */
+const layerState = {os:true, muscles:true, arteres:true, veines:true, nerfs:true, lymphatiques:true};
+function buildLayers(){
+  const box = document.getElementById('layers'); box.innerHTML='';
+  LAYERS.forEach(L=>{
+    const n = entries.filter(e=>e.layer===L.id && !e.noModel).length;
+    const row = document.createElement('label'); row.className='layer'+(L.infoOnly?' disabled':'');
+    row.innerHTML = `<input type="checkbox" ${layerState[L.id]?'checked':''}>
+      <span class="dot" style="background:${L.couleur}"></span><span>${L.nom}</span>
+      ${L.infoOnly?'<span class="warn">fiche seule</span>':`<span class="n">${n}</span>`}`;
+    const cb = row.querySelector('input');
+    cb.onchange = ()=>{
+      layerState[L.id]=cb.checked;
+      if (L.infoOnly && cb.checked){ showInfo(INFO_ONLY.find(e=>e.layer===L.id)); }
+      else entries.filter(e=>e.layer===L.id).forEach(e=>e.meshes.forEach(m=>m.visible=cb.checked));
+    };
+    box.appendChild(row);
+  });
+}
+
+/* ---------- sélection / fiche ---------- */
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+let selected = null;
+const infoEl = document.getElementById('info');
+function showInfo(e){
+  if(!e) return;
+  document.getElementById('infoname').textContent = e.nom;
+  document.getElementById('infosys').textContent = 'Couche : ' + (LAYER_NOM[e.layer]||e.layer);
+  document.getElementById('infobadge').innerHTML = e.noModel
+    ? '<span class="badge">Fiche du cours — modèle 3D non disponible dans BodyParts3D</span>' : '';
+  document.getElementById('infodesc').textContent = e.desc || '';
+  infoEl.classList.add('open');
+}
+document.getElementById('close').onclick = ()=>{ infoEl.classList.remove('open'); setSelected(null); };
+
+function setSelected(e){
+  if (selected) selected.meshes.forEach(m=>{ m.material.emissive.setHex(0x000000); });
+  selected = e;
+  if (e) e.meshes.forEach(m=>{ m.material.emissive.setHex(0x332200); m.material.emissiveIntensity=1; });
+}
+function pick(cx, cy){
+  ptr.x = (cx/innerWidth)*2-1; ptr.y = -(cy/innerHeight)*2+1;
+  ray.setFromCamera(ptr, camera);
+  const vis = [];
+  world.children.forEach(m=>{ if(m.visible!==false && layerState[entryByMesh.get(m)?.layer]!==false) vis.push(m); });
+  const hit = ray.intersectObjects(vis, false)[0];
+  return hit ? entryByMesh.get(hit.object) : null;
+}
+let downX=0, downY=0;
+renderer.domElement.addEventListener('pointerdown', e=>{downX=e.clientX;downY=e.clientY;});
+renderer.domElement.addEventListener('pointerup', e=>{
+  if (Math.hypot(e.clientX-downX, e.clientY-downY) > 8) return;  // c'était un drag
+  const entry = pick(e.clientX, e.clientY);
+  setSelected(entry); showInfo(entry);
+  if (entry && entry.bbox){ focusOn(entry); }
+});
+
+/* recentre doucement la caméra sur la structure */
+let focusAnim = null;
+function focusOn(e){
+  const c = e.bbox.getCenter(new THREE.Vector3());
+  const size = e.bbox.getSize(new THREE.Vector3()).length();
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  const dest = c.clone().add(dir.multiplyScalar(Math.max(size*2.2, 120)));
+  focusAnim = {t:0, fromT:controls.target.clone(), toT:c, fromC:camera.position.clone(), toC:dest};
+}
+
+/* ---------- recherche ---------- */
+const searchInput = document.getElementById('search'), resultsBox = document.getElementById('results');
+function norm(s){ return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function doSearch(){
+  const q = norm(searchInput.value.trim());
+  resultsBox.innerHTML = '';
+  if (q.length < 2) return;
+  entries.filter(e=>norm(e.nom).includes(q)).slice(0,8).forEach(e=>{
+    const b = document.createElement('button'); b.className='res';
+    b.innerHTML = `${e.nom}<span class="tag">${LAYER_NOM[e.layer]||''}</span>`;
+    b.onclick = ()=>{
+      if (e.noModel){ showInfo(e); }
+      else {
+        if(!layerState[e.layer]){ /* révèle la couche */ 
+          layerState[e.layer]=true;
+          document.querySelectorAll('#layers .layer input')[LAYERS.findIndex(l=>l.id===e.layer)].checked=true;
+          e.meshes.forEach(m=>m.visible=true);
+        }
+        setSelected(e); showInfo(e); focusOn(e);
+      }
+      resultsBox.innerHTML='';
+    };
+    resultsBox.appendChild(b);
+  });
+}
+searchInput.addEventListener('input', doSearch);
+
+/* ---------- boucle ---------- */
+const clock = new THREE.Clock();
+function animate(){
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.05);
+  if (focusAnim){
+    focusAnim.t += dt*2.2;
+    const k = focusAnim.t>=1 ? 1 : 1-Math.pow(1-focusAnim.t,3);
+    controls.target.lerpVectors(focusAnim.fromT, focusAnim.toT, k);
+    camera.position.lerpVectors(focusAnim.fromC, focusAnim.toC, k);
+    if (focusAnim.t>=1) focusAnim=null;
+  }
+  controls.update();
+  renderer.render(scene, camera);
+}
+addEventListener('resize', ()=>{
+  camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+build().catch(err=>{
+  loadmsg.textContent = 'Erreur de chargement : ' + err.message;
+  console.error(err);
+});
+
+/* API de test automatisé (sans effet sur l'interface) */
+window.__atlas = {
+  ids: ()=>entries.map(e=>e.id),
+  selectById: (id)=>{ const e=entries.find(x=>x.id===id); if(e){ setSelected(e); showInfo(e); if(e.bbox) focusOn(e); } return !!e; },
+  selectedId: ()=>selected?selected.id:null,
+  panelOpen: ()=>infoEl.classList.contains('open'),
+  visibleCount: ()=>world.children.filter(m=>m.visible!==false).length,
+  _dbg: {THREE, scene, camera, renderer, world, controls}
+};
+</script>
+</body>
+</html>
