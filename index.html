@@ -67,10 +67,81 @@
   #hint{bottom:30px;left:0;right:0;text-align:center;font-size:12px;color:var(--dim);pointer-events:none;
     transition:opacity .6s;}
   @media (max-width:640px){
-    #panel{width:200px;top:58px;padding:10px;}
+    #panel{width:200px;top:112px;padding:10px;}
     #title{font-size:15px;}
     #info{top:auto;bottom:12px;right:12px;left:12px;width:auto;max-height:46%;}
     #hint{bottom:46px;font-size:11px;}
+  }
+  /* ---- modes v2 ---- */
+  #topbar{flex-wrap:wrap;}
+  #modes{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap;}
+  .modebtn{pointer-events:auto;background:rgba(20,34,58,.92);border:1px solid var(--line);color:var(--txt);
+    border-radius:20px;padding:8px 13px;font-size:13px;cursor:pointer;white-space:nowrap;}
+  .modebtn:active{transform:scale(.96);}
+  .modebtn.on{border-color:var(--accent);color:var(--accent);}
+  /* ---- visite guidée ---- */
+  #tourbar{left:50%;transform:translate(-50%,calc(100% + 20px));bottom:14px;width:min(580px,calc(100vw - 24px));
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;z-index:20;
+    transition:transform .3s ease;backdrop-filter:blur(8px);}
+  #tourbar.open{transform:translate(-50%,0);}
+  #tourstep{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;}
+  #tourtitre{font-size:16px;font-weight:700;color:var(--accent);margin:4px 0 6px;}
+  #tourtexte{font-size:13.5px;line-height:1.55;color:var(--txt);white-space:pre-line;max-height:30vh;overflow:auto;}
+  #tourbar .row{display:flex;gap:8px;margin-top:12px;}
+  #tourbar .row button{flex:1;padding:10px;border-radius:10px;border:1px solid var(--line);background:#12233d;color:var(--txt);font-size:13px;cursor:pointer;}
+  #tournext{background:linear-gradient(135deg,#1d6fb8,#155a94)!important;border:none!important;font-weight:600;}
+  #tourbar .row button:disabled{opacity:.35;}
+  /* ---- quiz ---- */
+  #quizbox{left:50%;transform:translate(-50%,calc(100% + 20px));bottom:14px;width:min(480px,calc(100vw - 24px));
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;z-index:20;transition:transform .3s ease;}
+  #quizbox.open{transform:translate(-50%,0);}
+  #qhead{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+  #qtext{font-size:15px;font-weight:600;margin-bottom:6px;}
+  #qtarget{font-size:20px;font-weight:700;color:var(--accent2);text-align:center;padding:12px;background:rgba(79,195,247,.08);border-radius:10px;}
+  #qchoices{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+  .qbtn{padding:12px;border-radius:10px;border:1px solid var(--line);background:#12233d;color:var(--txt);font-size:14px;cursor:pointer;text-align:left;}
+  .qbtn.good{border-color:#58d68d;background:rgba(88,214,141,.15);}
+  .qbtn.bad{border-color:#e74c3c;background:rgba(231,76,60,.15);}
+  .qbtn.primary{background:linear-gradient(135deg,#1d6fb8,#155a94);border:none;font-weight:600;text-align:center;}
+  #qfeed{margin-top:10px;font-size:14px;min-height:22px;line-height:1.5;}
+  #qfeed.ok{color:#58d68d;} #qfeed.ko{color:#e74c3c;}
+  #qquit{margin-top:10px;width:100%;padding:9px;background:none;border:1px solid var(--line);color:var(--dim);border-radius:10px;font-size:13px;cursor:pointer;}
+  @media (min-width:641px){
+    #quizbox{left:auto;right:12px;transform:translateX(calc(100% + 20px));}
+    #quizbox.open{transform:none;}
+  }
+  /* ---- schéma plexus ---- */
+  #plexusview{position:fixed;inset:0;z-index:40;background:radial-gradient(1200px 800px at 60% 30%,#0b1526,#060b14);
+    display:none;flex-direction:column;}
+  #plexusview.open{display:flex;}
+  #plexushead{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-weight:700;font-size:16px;}
+  #plexushead button{background:rgba(20,34,58,.9);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:8px 14px;font-size:14px;cursor:pointer;}
+  #plexusscroll{flex:1;overflow:auto;padding:0 8px;}
+  #plexussvg{width:100%;height:auto;display:block;}
+  .pnode{cursor:pointer;}
+  .pnode rect{stroke-width:1.5;transition:opacity .2s;}
+  .pnode text{fill:#e8eef7;font-size:11px;text-anchor:middle;pointer-events:none;}
+  .pnode.dim,.pedge.dim{opacity:.1;}
+  .pnode.lit rect{stroke:#fff;stroke-width:2.5;}
+  .pedge{fill:none;stroke:#5b7ba6;stroke-width:1.6;}
+  .pedge.dash{stroke-dasharray:5 4;}
+  .pedge.lit{stroke:#f0b429;stroke-width:3;}
+  #plexuscap{margin:8px 12px;padding:10px 12px;background:rgba(13,24,42,.95);border:1px solid var(--line);border-radius:10px;font-size:13.5px;line-height:1.5;min-height:58px;}
+  #plexuslegend{display:flex;flex-wrap:wrap;gap:6px 12px;padding:0 14px 14px;font-size:11px;color:var(--dim);}
+  #plexuslegend .sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;}
+  /* ---- clinique ---- */
+  #clinique{top:64px;right:12px;width:min(360px,calc(100vw - 24px));background:var(--panel);border:1px solid var(--line);
+    border-radius:14px;padding:14px;z-index:20;transform:translateX(calc(100% + 20px));transition:transform .28s ease;
+    max-height:calc(100% - 150px);overflow:auto;}
+  #clinique.open{transform:none;}
+  #clinique h3{margin:0 0 10px;font-size:14px;}
+  .clinbtn{display:block;width:100%;text-align:left;margin-bottom:8px;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#12233d;color:var(--txt);font-size:13.5px;cursor:pointer;}
+  .clinbtn small{display:block;color:var(--dim);font-size:11.5px;margin-top:3px;font-weight:400;}
+  #clinclose{width:100%;padding:9px;background:none;border:1px solid var(--line);color:var(--dim);border-radius:10px;font-size:13px;cursor:pointer;margin-top:4px;}
+  @media (max-width:640px){
+    #modes{width:100%;margin-left:0;overflow-x:auto;padding-bottom:2px;flex-wrap:nowrap;}
+    .modebtn{font-size:12px;padding:7px 10px;}
+    #clinique{top:auto;bottom:12px;right:12px;left:12px;width:auto;max-height:54%;}
   }
 </style>
 </head>
@@ -79,6 +150,12 @@
 
 <div class="hud" id="topbar">
   <div class="t" id="title">Région axillaire — Atlas 3D<small>Creux axillaire · toucher une structure pour sa fiche</small></div>
+  <div class="t" id="modes">
+    <button class="modebtn" id="btn-tour">🧭 Visite guidée</button>
+    <button class="modebtn" id="btn-quiz">❓ Quiz</button>
+    <button class="modebtn" id="btn-plexus">🕸 Plexus</button>
+    <button class="modebtn" id="btn-clin">🩺 Clinique</button>
+  </div>
 </div>
 
 <div class="hud" id="panel">
@@ -98,6 +175,42 @@
   <p id="infodesc"></p>
 </div>
 
+<!-- visite guidée -->
+<div class="hud" id="tourbar">
+  <div id="tourstep">Étape 1/12</div>
+  <div id="tourtitre"></div>
+  <div id="tourtexte"></div>
+  <div class="row">
+    <button id="tourprev">← Précédent</button>
+    <button id="tourquit">Quitter</button>
+    <button id="tournext">Suivant →</button>
+  </div>
+</div>
+
+<!-- quiz -->
+<div class="hud" id="quizbox">
+  <div id="qhead">Question 1/10</div>
+  <div id="qtext"></div>
+  <div id="qchoices"></div>
+  <div id="qfeed"></div>
+  <button id="qquit">Quitter le quiz</button>
+</div>
+
+<!-- schéma plexus -->
+<div id="plexusview">
+  <div id="plexushead"><span>Schéma interactif — Plexus brachial</span><button id="plexusclose">× Fermer</button></div>
+  <div id="plexusscroll"><svg id="plexussvg" viewBox="0 0 720 1060" role="img" aria-label="Schéma du plexus brachial"></svg></div>
+  <div id="plexuscap">Touchez un nœud pour tracer son trajet jusqu'aux branches terminales.</div>
+  <div id="plexuslegend"></div>
+</div>
+
+<!-- clinique -->
+<div class="hud" id="clinique">
+  <h3>🩺 Corrélations cliniques</h3>
+  <div id="clinlist"></div>
+  <button id="clinclose">Fermer</button>
+</div>
+
 <div class="hud" id="hint">Glisser : pivoter · Pincer : zoomer · Toucher une structure : fiche</div>
 <div class="hud" id="attrib">Modèles 3D : BodyParts3D © Database Center for Life Science (DBCLS) — CC BY-SA 2.1 JP / CC BY 4.0 · Données : adulte masculin</div>
 
@@ -114,6 +227,11 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+/* collecte d'erreurs (diagnostic, sans effet sur l'interface) */
+window.__errs = [];
+addEventListener('error', e=>{ window.__errs.push(String((e&&e.message)||'error')); });
+addEventListener('unhandledrejection', e=>{ window.__errs.push('rejection: '+String((e.reason&&e.reason.message)||e.reason)); });
 
 /* Fiches sans modèle 3D (absents de BodyParts3D) — texte du cours */
 const INFO_ONLY = [
@@ -143,7 +261,7 @@ renderer.setSize(innerWidth, innerHeight);
 container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x070d18, 0.0016);
+scene.fog = new THREE.FogExp2(0x070d18, 0.0009);
 const camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, 1, 8000);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; controls.dampingFactor = 0.08;
@@ -199,7 +317,7 @@ async function build(){
   }
   INFO_ONLY.forEach(e=>registerEntry({...e, meshes:[], bbox:null, noModel:true}));
   document.getElementById('loader').classList.add('done');
-  buildLayers(); fitInitial(); animate();
+  buildLayers(); fitInitial(); animate(); runAutotest();
   setTimeout(()=>document.getElementById('hint').style.opacity=0, 7000);
 }
 
@@ -210,7 +328,7 @@ function fitInitial(){
   if (ax && ax.bbox){
     ax.bbox.getCenter(target); dist = 260;
   } else {
-    const all = new THREE.Box3(); entries.forEach(e=>e.bbox&&all.expandByBox(e.bbox));
+    const all = new THREE.Box3(); entries.forEach(e=>e.bbox&&all.union(e.bbox));
     if (!all.isEmpty()){ all.getCenter(target); dist = all.getSize(new THREE.Vector3()).length()*1.1; }
   }
   controls.target.copy(target);
@@ -274,19 +392,29 @@ let downX=0, downY=0;
 renderer.domElement.addEventListener('pointerdown', e=>{downX=e.clientX;downY=e.clientY;});
 renderer.domElement.addEventListener('pointerup', e=>{
   if (Math.hypot(e.clientX-downX, e.clientY-downY) > 8) return;  // c'était un drag
+  if (quizTapHandler(e)) return;  // le quiz consomme le toucher
   const entry = pick(e.clientX, e.clientY);
   setSelected(entry); showInfo(entry);
   if (entry && entry.bbox){ focusOn(entry); }
 });
 
-/* recentre doucement la caméra sur la structure */
+/* recentre doucement la caméra sur une boîte englobante */
 let focusAnim = null;
-function focusOn(e){
-  const c = e.bbox.getCenter(new THREE.Vector3());
-  const size = e.bbox.getSize(new THREE.Vector3()).length();
+function focusBox(box, ratio){
+  const c = box.getCenter(new THREE.Vector3());
+  const size = box.getSize(new THREE.Vector3()).length();
   const dir = camera.position.clone().sub(controls.target).normalize();
-  const dest = c.clone().add(dir.multiplyScalar(Math.max(size*2.2, 120)));
+  const dest = c.clone().add(dir.multiplyScalar(Math.max(size*(ratio||2.2), 120)));
   focusAnim = {t:0, fromT:controls.target.clone(), toT:c, fromC:camera.position.clone(), toC:dest};
+}
+function focusOn(e){ focusBox(e.bbox, 2.2); }
+/* révèle la couche d'une entrée si elle est masquée */
+function ensureLayerVisible(layerId){
+  if (layerState[layerId]) return;
+  layerState[layerId] = true;
+  const cb = document.querySelectorAll('#layers .layer input')[LAYERS.findIndex(l=>l.id===layerId)];
+  if (cb) cb.checked = true;
+  entries.filter(e=>e.layer===layerId).forEach(e=>e.meshes.forEach(m=>m.visible=true));
 }
 
 /* ---------- recherche ---------- */
@@ -321,6 +449,12 @@ const clock = new THREE.Clock();
 function animate(){
   requestAnimationFrame(animate);
   const dt = Math.min(clock.getDelta(), 0.05);
+  if (pulseList.length){  /* surlignage pulsé du quiz */
+    const k = 0.75 + 0.55*Math.sin(performance.now()/170);
+    for (const en of pulseList) for (const m of en.meshes){
+      m.material.emissive.setHex(0x9a5f00); m.material.emissiveIntensity = k;
+    }
+  }
   if (focusAnim){
     focusAnim.t += dt*2.2;
     const k = focusAnim.t>=1 ? 1 : 1-Math.pow(1-focusAnim.t,3);
@@ -341,6 +475,398 @@ build().catch(err=>{
   console.error(err);
 });
 
+/* ==================== V2 : APPRENTISSAGE INTERACTIF ==================== */
+
+/* ---------- utilitaires partagés ---------- */
+function clearHighlight(){
+  selected = null;
+  entries.forEach(e=>e.meshes.forEach(m=>{ m.material.emissive.setHex(0x000000); m.material.emissiveIntensity=1; }));
+}
+function highlightEntries(list){
+  clearHighlight();
+  list.forEach(e=>e.meshes.forEach(m=>{ m.material.emissive.setHex(0x553a00); m.material.emissiveIntensity=1; }));
+}
+function showCustomInfo(titre, sys, texte){
+  document.getElementById('infoname').textContent = titre;
+  document.getElementById('infosys').textContent = sys;
+  document.getElementById('infobadge').innerHTML = '';
+  document.getElementById('infodesc').textContent = texte;
+  infoEl.classList.add('open');
+}
+function byIds(ids){ return ids.map(id=>entries.find(e=>e.id===id)).filter(Boolean); }
+function setMode(name){
+  ['tour','quiz','plexus','clin'].forEach(m=>{
+    document.getElementById('btn-'+m).classList.toggle('on', m===name);
+  });
+}
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+/* ==================== 1. VISITE GUIDÉE ==================== */
+const TOUR = [
+ {titre:"Introduction", texte:"Trait d'union entre le tronc, le cou et le bras : c'est le hile du membre supérieur.\nForme : pyramide quadrangulaire à sommet supéro-interne et base (plancher) inféro-externe.\nRégion complexe par ses éléments vasculo-nerveux — d'où la gravité des traumatismes axillaires.", ids:[]},
+ {titre:"Parois — A : Scapulaire", texte:"Plan osseux : face antérieure de l'omoplate.\nPlan musculaire : muscle sous-scapulaire (de la fosse sous-scapulaire au trochin), aponévrose profonde, grand rond et grand dorsal (lèvre médiale de la gouttière bicipitale), longue portion du triceps (3 ouvertures : huméro-tricipital, omo-tricipital, inférieur).", ids:["omoplate","sous_scapulaire","grand_rond"]},
+ {titre:"Parois — B : Pectorale", texte:"Plan superficiel : grand pectoral (chefs claviculaire et sterno-costal → lèvre latérale de la gouttière bicipitale) et deltoïde (3 portions : claviculaire, acromiale, spinale → V deltoïdien).\nPlan profond : muscle sous-clavier, petit pectoral (face latérale des 3ᵉ, 4ᵉ et 5ᵉ côtes → apophyse coracoïde), aponévrose clavi-pectoro-axillaire (ligament suspenseur de l'aisselle de Gerdy).", ids:["grand_pectoral","petit_pectoral"]},
+ {titre:"Parois — C : Humérale", texte:"Extrémité supérieure de l'humérus et apophyse coracoïde.\nMuscle coraco-brachial (apophyse coracoïde → 1/3 inférieur de la diaphyse humérale) et courte portion du biceps (s'insère sur l'apophyse coracoïde puis rejoint la longue portion).\nL'aponévrose de ces muscles se continue avec l'aponévrose clavi-pectoro-axillaire.", ids:["humerus","coraco_brachial","biceps_brachial"]},
+ {titre:"Parois — D : Thoracique", texte:"Partie latérale de la cage thoracique.\nMuscle dentelé antérieur : de la face latérale des 9 premières côtes au bord spinal de l'omoplate.\nCe plan costo-intercostal sépare le creux axillaire du fascia endothoracique, de la plèvre et du poumon — d'où les exsufflations des pneumothorax au niveau du creux axillaire.", ids:["cage_thoracique","dentele_anterieur"]},
+ {titre:"Parois — E : Base", texte:"Base déprimée, composée de l'aponévrose axillaire (livrant passage au pédicule vasculo-nerveux axillaire), du tissu sous-cutané et de la peau.\n(pas de modèle 3D — fiche de cours)", ids:null},
+ {titre:"Parois — F : Sommet", texte:"Sommet tronqué. Limites : en avant la clavicule et le muscle sous-clavier, en postéro-externe le bord supérieur de l'omoplate et l'apophyse coracoïde, en dedans la 1ʳᵉ digitation du grand dentelé.\nIl fait communiquer le creux axillaire et le creux sus-claviculaire, et livre passage au paquet vasculo-nerveux axillaire.", ids:["clavicule"]},
+ {titre:"Contenu — A : Artère axillaire", texte:"Fait suite, au-dessous du milieu de la clavicule, à l'artère sous-clavière (lésion possible lors d'une fracture de la 1ʳᵉ côte).\nTrajet : oblique en bas et en dehors, accompagnée par la veine axillaire en dedans.\nTerminaison : devient l'artère humérale à la hauteur du bord inférieur du grand pectoral.\nCollatérales : thoracique supérieure, acromio-thoracique, mammaire externe (thoracique latérale), sous-scapulaire, tronc des circonflexes antérieure et postérieure.", ids:["artere_axillaire","artere_sous_claviere","artere_brachiale","artere_thoracique_laterale","artere_sous_scapulaire","circonflexe_anterieure","circonflexe_posterieure","branches_acromio_thoracique"]},
+ {titre:"Contenu — B : Veine axillaire", texte:"Confluence des 2 veines humérales et de la veine basilique.\nTrajet : oblique en haut et en dedans.\nTerminaison : au-dessous du milieu de la clavicule, devenant veine sous-clavière.\nBranches affluentes : satellites des artères.", ids:["veine_axillaire","veine_basilique","veine_brachiale","veine_sous_claviere"]},
+ {titre:"Contenu — C : Plexus brachial", texte:"Origine C5 à D1, troncs primaires puis secondaires, branches terminales : radial, axillaire, musculo-cutané, médian, cubital.\nLa fiche détaillée s'affiche → (pas de modèle 3D dans BodyParts3D).", fiche:"plexus_brachial"},
+ {titre:"Contenu — D : Lymphatiques", texte:"Les nœuds axillaires reçoivent les lymphatiques du membre supérieur et surtout de la glande mammaire.\n5 groupes : huméraux, pectoraux, sous-scapulaires, centraux, apicaux.\nLa fiche détaillée s'affiche → (pas de modèle 3D dans BodyParts3D).", fiche:"lymphatiques"},
+ {titre:"Conclusion — Intérêt", texte:"• Anatomique : le pédicule axillaire est le principal hile vasculaire du membre supérieur.\n• Clinique : palpation du pouls et des adénopathies axillaires.\n• Paraclinique : artériographie par voie axillaire.\n• Pathologique : lésions du plexus brachial lors des luxations de l'épaule.\n• Chirurgical : abord délicat vu les contacts intimes avec le paquet vasculo-nerveux.", ids:["artere_axillaire","veine_axillaire"]},
+];
+let tourIdx = -1;
+function startTour(){
+  quitQuiz(); closePlexus(); closeClinique();
+  infoEl.classList.remove('open'); clearHighlight();
+  setMode('tour'); tourIdx = 0;
+  document.getElementById('tourbar').classList.add('open');
+  renderTour();
+}
+function renderTour(){
+  const s = TOUR[tourIdx];
+  document.getElementById('tourstep').textContent = `Étape ${tourIdx+1}/${TOUR.length}`;
+  document.getElementById('tourtitre').textContent = s.titre;
+  document.getElementById('tourtexte').textContent = s.texte;
+  document.getElementById('tourprev').disabled = tourIdx===0;
+  document.getElementById('tournext').textContent = tourIdx===TOUR.length-1 ? 'Terminer ✓' : 'Suivant →';
+  clearHighlight();
+  if (s.fiche){
+    const e = INFO_ONLY.find(x=>x.id===s.fiche);
+    if (e) showInfo(e);
+  } else if (s.ids && s.ids.length){
+    const list = byIds(s.ids);
+    list.forEach(e=>ensureLayerVisible(e.layer));
+    highlightEntries(list);
+    const box = new THREE.Box3();
+    list.forEach(e=>{ if(e.bbox) box.union(e.bbox); });
+    if (!box.isEmpty()) focusBox(box, 2.0);
+  } else {
+    fitInitial();
+  }
+}
+function quitTour(){
+  tourIdx = -1; setMode(null);
+  document.getElementById('tourbar').classList.remove('open');
+  clearHighlight(); infoEl.classList.remove('open');
+}
+document.getElementById('tourprev').onclick = ()=>{ if(tourIdx>0){ tourIdx--; renderTour(); } };
+document.getElementById('tournext').onclick = ()=>{ if(tourIdx<TOUR.length-1){ tourIdx++; renderTour(); } else quitTour(); };
+document.getElementById('tourquit').onclick = quitTour;
+
+/* ==================== 2. MODE QUIZ ==================== */
+const pulseList = [];
+let quiz = null;
+function startQuiz(){
+  quitTour(); closePlexus(); closeClinique();
+  infoEl.classList.remove('open'); clearHighlight(); clearPulse();
+  Object.keys(layerState).forEach(ensureLayerVisible);
+  setMode('quiz');
+  const pool = shuffle(entries.filter(e=>!e.noModel));
+  const qs = pool.slice(0,10).map((e,i)=>({entry:e, type:(i%2===0)?'tap':'qcm'}));
+  shuffle(qs);
+  quiz = {active:true, idx:0, score:0, qs, awaitingTap:false, answered:false};
+  document.getElementById('quizbox').classList.add('open');
+  renderQuiz();
+}
+function renderQuiz(){
+  const q = quiz.qs[quiz.idx];
+  quiz.answered = false; quiz.awaitingTap = (q.type==='tap');
+  clearPulse();
+  document.getElementById('qhead').textContent = `Question ${quiz.idx+1}/10 · Score : ${quiz.score}`;
+  const feed = document.getElementById('qfeed'); feed.textContent=''; feed.className='';
+  const box = document.getElementById('qchoices'); box.innerHTML='';
+  if (q.type==='tap'){
+    document.getElementById('qtext').textContent = 'Touchez sur le modèle 3D :';
+    const big = document.createElement('div'); big.id='qtarget'; big.textContent = q.entry.nom;
+    box.appendChild(big);
+  } else {
+    document.getElementById('qtext').textContent = 'Quelle est cette structure surlignée ?';
+    pulseList.push(q.entry);
+    const others = shuffle(entries.filter(e=>!e.noModel && e.id!==q.entry.id)).slice(0,3);
+    shuffle([q.entry, ...others]).forEach(e=>{
+      const b = document.createElement('button'); b.className='qbtn'; b.textContent = e.nom;
+      b.onclick = ()=>answerQuiz(e.id===q.entry.id, b);
+      box.appendChild(b);
+    });
+  }
+}
+function quizTapHandler(e){
+  if (!quiz || !quiz.active || !quiz.awaitingTap || quiz.answered) return false;
+  const entry = pick(e.clientX, e.clientY);
+  answerQuiz(entry && entry.id===quiz.qs[quiz.idx].entry.id, null);
+  return true;
+}
+function answerQuiz(ok, btn){
+  if (!quiz || quiz.answered) return;
+  quiz.answered = true; quiz.awaitingTap = false; clearPulse();
+  const feed = document.getElementById('qfeed');
+  if (ok){
+    quiz.score++;
+    feed.textContent = '✓ Bonne réponse !'; feed.className = 'ok';
+    if (btn) btn.classList.add('good');
+  } else {
+    feed.textContent = '✗ Raté — c’était : ' + quiz.qs[quiz.idx].entry.nom; feed.className = 'ko';
+    if (btn) btn.classList.add('bad');
+  }
+  document.getElementById('qhead').textContent = `Question ${quiz.idx+1}/10 · Score : ${quiz.score}`;
+  setTimeout(()=>{ if(quiz && quiz.active) nextQuiz(); }, 1400);
+}
+function nextQuiz(){
+  quiz.idx++;
+  if (quiz.idx >= quiz.qs.length){ endQuiz(); return; }
+  renderQuiz();
+}
+function endQuiz(){
+  clearPulse();
+  const box = document.getElementById('qchoices'); box.innerHTML='';
+  document.getElementById('qtext').textContent = 'Quiz terminé !';
+  const s = quiz.score;
+  const msg = s>=8 ? "Excellent — le creux axillaire n'a plus de secrets pour vous !"
+    : s>=5 ? "Bien — encore quelques révisions et ce sera parfait."
+    : "Courage — refaites la visite guidée puis retentez !";
+  const feed = document.getElementById('qfeed');
+  feed.innerHTML = `<b>${s} / 10</b><br>${msg}`; feed.className = s>=5?'ok':'ko';
+  const r = document.createElement('button'); r.className='qbtn primary'; r.textContent='↻ Rejouer';
+  r.onclick = startQuiz; box.appendChild(r);
+  quiz.active = false;
+}
+function quitQuiz(){
+  if (!quiz) return;
+  quiz.active = false; quiz = null; clearPulse();
+  document.getElementById('quizbox').classList.remove('open');
+  setMode(null);
+}
+function clearPulse(){
+  pulseList.length = 0;
+  entries.forEach(e=>e.meshes.forEach(m=>{ m.material.emissive.setHex(0x000000); m.material.emissiveIntensity=1; }));
+}
+document.getElementById('qquit').onclick = quitQuiz;
+
+/* ==================== 3. SCHÉMA PLEXUS INTERACTIF ==================== */
+const PL_LVL = {
+  racine:{c:'#4fc3f7', nom:'Racines'}, tronc:{c:'#58d68d', nom:'Troncs primaires'},
+  division:{c:'#9db1cc', nom:'Divisions'}, faisceau:{c:'#f0a13c', nom:'Troncs secondaires'},
+  terminal:{c:'#f0d429', nom:'Branches terminales'}, collaterale:{c:'#b388ff', nom:'Collatérales'}
+};
+const PL_NODES = [
+ {id:'c5',x:58,y:105,w:52,label:'C5',lvl:'racine',desc:"Racine C5 — s'unit à C6 pour former le tronc primaire supérieur."},
+ {id:'c6',x:58,y:185,w:52,label:'C6',lvl:'racine',desc:"Racine C6 — s'unit à C5 pour former le tronc primaire supérieur."},
+ {id:'c7',x:58,y:295,w:52,label:'C7',lvl:'racine',desc:"Racine C7 — forme à elle seule le tronc primaire moyen."},
+ {id:'c8',x:58,y:405,w:52,label:'C8',lvl:'racine',desc:"Racine C8 — s'unit à D1 pour former le tronc primaire inférieur."},
+ {id:'d1',x:58,y:485,w:52,label:'D1',lvl:'racine',desc:"Racine D1 (thoracique) — s'unit à C8 pour former le tronc primaire inférieur."},
+ {id:'ts',x:205,y:145,w:150,label:'Tronc primaire',sub:'supérieur',lvl:'tronc',desc:"Tronc primaire supérieur (C5–C6) → se divise en branches postérieure et antérieure."},
+ {id:'tm',x:205,y:295,w:150,label:'Tronc primaire',sub:'moyen',lvl:'tronc',desc:"Tronc primaire moyen (C7) → se divise en branches postérieure et antérieure."},
+ {id:'ti',x:205,y:445,w:150,label:'Tronc primaire',sub:'inférieur',lvl:'tronc',desc:"Tronc primaire inférieur (C8–D1) → se divise en branches postérieure et antérieure."},
+ {id:'ts_post',x:345,y:95,r:10,label:'post.',lvl:'division',desc:"Division postérieure du tronc supérieur — rejoint les 2 autres divisions postérieures pour former le tronc secondaire postérieur."},
+ {id:'ts_ant',x:345,y:195,r:10,label:'ant.',lvl:'division',desc:"Division antérieure du tronc supérieur — rejoint celle du tronc moyen pour former le tronc secondaire antéro-externe."},
+ {id:'tm_post',x:345,y:250,r:10,label:'post.',lvl:'division',desc:"Division postérieure du tronc moyen — rejoint les 2 autres divisions postérieures pour former le tronc secondaire postérieur."},
+ {id:'tm_ant',x:345,y:345,r:10,label:'ant.',lvl:'division',desc:"Division antérieure du tronc moyen — rejoint celle du tronc supérieur pour former le tronc secondaire antéro-externe."},
+ {id:'ti_post',x:345,y:400,r:10,label:'post.',lvl:'division',desc:"Division postérieure du tronc inférieur — rejoint les 2 autres divisions postérieures pour former le tronc secondaire postérieur."},
+ {id:'ti_ant',x:345,y:490,r:10,label:'ant.',lvl:'division',desc:"Division antérieure du tronc inférieur — forme à elle seule le tronc secondaire antéro-interne."},
+ {id:'cord_post',x:495,y:235,w:170,label:'Tronc secondaire',sub:'postérieur',lvl:'faisceau',desc:"Tronc secondaire postérieur (3 divisions postérieures) → nerf radial et nerf axillaire (circonflexe)."},
+ {id:'cord_al',x:495,y:380,w:170,label:'Tronc secondaire',sub:'antéro-externe',lvl:'faisceau',desc:"Tronc secondaire antéro-externe (divisions antérieures des troncs supérieur et moyen) → nerf musculo-cutané et racine latérale du médian."},
+ {id:'cord_am',x:495,y:525,w:170,label:'Tronc secondaire',sub:'antéro-interne',lvl:'faisceau',desc:"Tronc secondaire antéro-interne (division antérieure du tronc inférieur) → racine médiale du médian, nerf cubital, cutanés médiaux de l'avant-bras et du bras."},
+ {id:'n_axillaire',x:640,y:80,w:140,label:'Nerf axillaire',sub:'(circonflexe)',lvl:'terminal',desc:"Nerf axillaire (circonflexe) — vulnérable lors des luxations de l'épaule : paralysie du deltoïde, anesthésie du moignon de l'épaule."},
+ {id:'n_radial',x:640,y:160,w:140,label:'Nerf radial',lvl:'terminal',desc:"Nerf radial — le plus volumineux du plexus, innerve les extenseurs du membre supérieur."},
+ {id:'n_musculocutane',x:640,y:265,w:140,label:'Nerf',sub:'musculo-cutané',lvl:'terminal',desc:"Nerf musculo-cutané — traverse le muscle coraco-brachial, innerve les fléchisseurs du bras."},
+ {id:'rac_lat',x:640,y:345,w:140,label:'Racine latérale',sub:'du médian',lvl:'terminal',desc:"Racine latérale du nerf médian — rejoint la racine médiale en avant de l'artère axillaire."},
+ {id:'rac_med',x:640,y:425,w:140,label:'Racine médiale',sub:'du médian',lvl:'terminal',desc:"Racine médiale du nerf médian — rejoint la racine latérale en avant de l'artère axillaire."},
+ {id:'n_median',x:640,y:505,w:140,label:'Nerf médian',lvl:'terminal',desc:"Nerf médian — formé de ses deux racines en avant de l'artère axillaire."},
+ {id:'n_cubital',x:640,y:585,w:140,label:'Nerf cubital',sub:'(ulnaire)',lvl:'terminal',desc:"Nerf cubital (ulnaire) — innerve une partie des fléchisseurs et la main médiale."},
+ {id:'n_cut_avb',x:640,y:665,w:140,label:'Cutané médial',sub:"de l'avant-bras",lvl:'terminal',desc:"Nerf cutané médial de l'avant-bras — sensitif."},
+ {id:'n_cut_bras',x:640,y:745,w:140,label:'Cutané médial',sub:'du bras',lvl:'terminal',desc:"Nerf cutané médial du bras — sensitif."},
+ {id:'col_pect',x:495,y:660,w:170,label:'N. grand & petit',sub:'pectoral',lvl:'collaterale',desc:"Collatérale : nerfs du grand et du petit pectoral."},
+ {id:'col_sousscap',x:495,y:745,w:170,label:'N. sous-scapulaire',lvl:'collaterale',desc:"Collatérale : nerf du muscle sous-scapulaire."},
+ {id:'col_granddorsal',x:495,y:830,w:170,label:'N. grand dorsal',lvl:'collaterale',desc:"Collatérale : nerf du muscle grand dorsal."},
+ {id:'col_grandrond',x:495,y:915,w:170,label:'N. grand rond',lvl:'collaterale',desc:"Collatérale : nerf du muscle grand rond."},
+ {id:'col_dentele',x:495,y:1000,w:170,label:'N. grand dentelé',lvl:'collaterale',desc:"Collatérale : nerf du muscle grand dentelé (dentelé antérieur)."},
+];
+const PL_EDGES = [
+ ['c5','ts'],['c6','ts'],['c7','tm'],['c8','ti'],['d1','ti'],
+ ['ts','ts_post'],['ts','ts_ant'],['tm','tm_post'],['tm','tm_ant'],['ti','ti_post'],['ti','ti_ant'],
+ ['ts_post','cord_post'],['tm_post','cord_post'],['ti_post','cord_post'],
+ ['ts_ant','cord_al'],['tm_ant','cord_al'],['ti_ant','cord_am'],
+ ['cord_post','n_axillaire'],['cord_post','n_radial'],
+ ['cord_al','n_musculocutane'],['cord_al','rac_lat'],
+ ['cord_am','rac_med'],['cord_am','n_cubital'],['cord_am','n_cut_avb'],['cord_am','n_cut_bras'],
+ ['rac_lat','n_median'],['rac_med','n_median'],
+ ['cord_al','col_pect',1],['cord_post','col_sousscap',1],['cord_post','col_granddorsal',1],
+ ['cord_post','col_grandrond',1],['cord_post','col_dentele',1],
+];
+const PL_BYID = Object.fromEntries(PL_NODES.map(n=>[n.id,n]));
+let plexusBuilt = false;
+function edgePath(a,b){
+  const x1 = a.r ? a.x+a.r : a.x+a.w/2, x2 = b.r ? b.x-b.r : b.x-b.w/2;
+  const dx = Math.max(40,(x2-x1)*0.5);
+  return `M ${x1} ${a.y} C ${x1+dx} ${a.y}, ${x2-dx} ${b.y}, ${x2} ${b.y}`;
+}
+function buildPlexus(){
+  if (plexusBuilt) return; plexusBuilt = true;
+  const svg = document.getElementById('plexussvg');
+  const NS = 'http://www.w3.org/2000/svg';
+  PL_EDGES.forEach(([f,t,dash])=>{
+    const p = document.createElementNS(NS,'path');
+    p.setAttribute('d', edgePath(PL_BYID[f], PL_BYID[t]));
+    p.setAttribute('class','pedge'+(dash?' dash':''));
+    p.dataset.from=f; p.dataset.to=t;
+    svg.appendChild(p);
+  });
+  PL_NODES.forEach(n=>{
+    const g = document.createElementNS(NS,'g');
+    g.setAttribute('class','pnode'); g.dataset.id=n.id;
+    const col = PL_LVL[n.lvl].c;
+    if (n.r){
+      const c = document.createElementNS(NS,'circle');
+      c.setAttribute('cx',n.x); c.setAttribute('cy',n.y); c.setAttribute('r',n.r);
+      c.setAttribute('fill','#101d33'); c.setAttribute('stroke',col);
+      g.appendChild(c);
+      const t = document.createElementNS(NS,'text');
+      t.setAttribute('x',n.x+n.r+6); t.setAttribute('y',n.y+4);
+      t.setAttribute('style','text-anchor:start;font-size:10px;fill:#9db1cc');
+      t.textContent = n.label; g.appendChild(t);
+    } else {
+      const r = document.createElementNS(NS,'rect');
+      r.setAttribute('x',n.x-n.w/2); r.setAttribute('y',n.y-22);
+      r.setAttribute('width',n.w); r.setAttribute('height',44); r.setAttribute('rx',10);
+      r.setAttribute('fill','#101d33'); r.setAttribute('stroke',col);
+      g.appendChild(r);
+      const t1 = document.createElementNS(NS,'text');
+      t1.setAttribute('x',n.x); t1.setAttribute('y', n.sub? n.y-2 : n.y+4);
+      t1.textContent = n.label; g.appendChild(t1);
+      if (n.sub){
+        const t2 = document.createElementNS(NS,'text');
+        t2.setAttribute('x',n.x); t2.setAttribute('y',n.y+13);
+        t2.setAttribute('style','font-size:10px;fill:#9db1cc');
+        t2.textContent = n.sub; g.appendChild(t2);
+      }
+    }
+    g.addEventListener('click', ev=>{ ev.stopPropagation(); tracePlexus(n.id); });
+    svg.appendChild(g);
+  });
+  svg.addEventListener('click', ()=>resetPlexus());
+  const leg = document.getElementById('plexuslegend');
+  Object.values(PL_LVL).forEach(l=>{
+    const s = document.createElement('span');
+    s.innerHTML = `<span class="sw" style="background:${l.c}"></span>${l.nom}`;
+    leg.appendChild(s);
+  });
+}
+function downstream(id){
+  const adj = {};
+  PL_EDGES.forEach(([f,t])=>{ (adj[f]=adj[f]||[]).push(t); });
+  const seen = new Set([id]); const stack=[id];
+  while(stack.length){ const cur=stack.pop(); (adj[cur]||[]).forEach(n=>{ if(!seen.has(n)){ seen.add(n); stack.push(n);} }); }
+  return seen;
+}
+function tracePlexus(id){
+  const set = downstream(id);
+  document.querySelectorAll('#plexussvg .pnode').forEach(g=>{
+    const on = set.has(g.dataset.id);
+    g.classList.toggle('lit', on); g.classList.toggle('dim', !on);
+  });
+  document.querySelectorAll('#plexussvg .pedge').forEach(p=>{
+    const on = set.has(p.dataset.from) && set.has(p.dataset.to);
+    p.classList.toggle('lit', on); p.classList.toggle('dim', !on);
+  });
+  document.getElementById('plexuscap').textContent = PL_BYID[id].desc;
+}
+function resetPlexus(){
+  document.querySelectorAll('#plexussvg .pnode').forEach(g=>g.classList.remove('lit','dim'));
+  document.querySelectorAll('#plexussvg .pedge').forEach(p=>p.classList.remove('lit','dim'));
+  document.getElementById('plexuscap').textContent = "Touchez un nœud pour tracer son trajet jusqu'aux branches terminales.";
+}
+function openPlexus(){
+  quitTour(); quitQuiz(); closeClinique();
+  buildPlexus(); resetPlexus(); setMode('plexus');
+  document.getElementById('plexusview').classList.add('open');
+}
+function closePlexus(){
+  document.getElementById('plexusview').classList.remove('open');
+  if (document.getElementById('btn-plexus').classList.contains('on')) setMode(null);
+}
+document.getElementById('plexusclose').onclick = closePlexus;
+
+/* ==================== 4. CORRÉLATIONS CLINIQUES ==================== */
+const CLIN = [
+ {t:"Palpation du pouls axillaire", s:"Repère du pédicule vasculaire",
+  note:"Le pouls axillaire se palpe dans le creux axillaire, contre la tête humérale : c'est le repère clinique du pédicule vasculaire du membre supérieur.",
+  ids:["artere_axillaire"]},
+ {t:"Adénopathies axillaires", s:"5 groupes ganglionnaires",
+  note:"Palpation systématique des 5 groupes : huméraux, pectoraux, sous-scapulaires, centraux et apicaux — les nœuds axillaires drainent surtout la glande mammaire.",
+  fiche:"lymphatiques"},
+ {t:"Fracture de la 1ʳᵉ côte", s:"Lésion artérielle possible",
+  note:"L'artère axillaire fait suite à l'artère sous-clavière au-dessous du milieu de la clavicule : une fracture de la 1ʳᵉ côte peut la léser.",
+  ids:["artere_axillaire","artere_sous_claviere"], focus:["artere_axillaire"]},
+ {t:"Luxation de l'épaule", s:"Lésion du plexus brachial",
+  note:"Les lésions du plexus brachial sont classiques lors des luxations de l'épaule — notamment le nerf axillaire (circonflexe) : paralysie du deltoïde et anesthésie du moignon de l'épaule.",
+  fiche:"plexus_brachial"},
+ {t:"Abord chirurgical & artériographie", s:"Paquet vasculo-nerveux",
+  note:"Abord délicat vu les contacts intimes avec le paquet vasculo-nerveux. La voie axillaire permet aussi l'artériographie du membre supérieur.",
+  ids:["artere_axillaire","veine_axillaire"]},
+];
+function openClinique(){
+  quitTour(); quitQuiz(); closePlexus();
+  setMode('clin');
+  const list = document.getElementById('clinlist'); list.innerHTML='';
+  CLIN.forEach(item=>{
+    const b = document.createElement('button'); b.className='clinbtn';
+    b.innerHTML = `${item.t}<small>${item.s}</small>`;
+    b.onclick = ()=>runClinique(item);
+    list.appendChild(b);
+  });
+  document.getElementById('clinique').classList.add('open');
+}
+function closeClinique(){
+  document.getElementById('clinique').classList.remove('open');
+  if (document.getElementById('btn-clin').classList.contains('on')) setMode(null);
+}
+function runClinique(item){
+  closeClinique(); clearHighlight(); setMode(null);
+  if (item.fiche){
+    const e = INFO_ONLY.find(x=>x.id===item.fiche);
+    if (e){
+      showInfo(e);
+      document.getElementById('infodesc').textContent = item.note + '\n\n— Fiche du cours —\n' + e.desc;
+    }
+  } else {
+    const list = byIds(item.ids);
+    list.forEach(e=>ensureLayerVisible(e.layer));
+    highlightEntries(list);
+    const fbox = new THREE.Box3();
+    byIds(item.focus||item.ids).forEach(e=>{ if(e.bbox) fbox.union(e.bbox); });
+    if (!fbox.isEmpty()) focusBox(fbox, 2.0);
+    showCustomInfo(item.t, 'Corrélation clinique', item.note);
+  }
+}
+document.getElementById('clinclose').onclick = closeClinique;
+
+/* ---------- boutons des modes ---------- */
+document.getElementById('btn-tour').onclick = ()=>{ tourIdx>=0 ? quitTour() : startTour(); };
+document.getElementById('btn-quiz').onclick = ()=>{ (quiz && quiz.active) ? quitQuiz() : startQuiz(); };
+document.getElementById('btn-plexus').onclick = ()=>{
+  document.getElementById('plexusview').classList.contains('open') ? closePlexus() : openPlexus();
+};
+document.getElementById('btn-clin').onclick = ()=>{
+  document.getElementById('clinique').classList.contains('open') ? closeClinique() : openClinique();
+};
+
+/* ---------- autotest (paramètre ?autotest=...) ---------- */
+function runAutotest(){
+  const q = new URLSearchParams(location.search).get('autotest');
+  if (!q) return;
+  try{
+    if (q==='tour'){ startTour(); tourIdx=7; renderTour(); }
+    else if (q==='quiz'){ startQuiz(); }
+    else if (q==='quizqcm'){ startQuiz(); quiz.qs[0].type='qcm'; quiz.idx=0; quiz.answered=false; renderQuiz(); }
+    else if (q==='quiztap'){ startQuiz(); quiz.qs[0].type='tap'; quiz.idx=0; quiz.answered=false; renderQuiz(); }
+    else if (q==='plexus'){ openPlexus(); }
+    else if (q==='clin'){ openClinique(); }
+    document.title = 'AUTOTEST_'+q.toUpperCase()+'_OK';
+  }catch(err){ document.title = 'AUTOTEST_FAIL:'+err.message; }
+}
+
 /* API de test automatisé (sans effet sur l'interface) */
 window.__atlas = {
   ids: ()=>entries.map(e=>e.id),
@@ -348,6 +874,22 @@ window.__atlas = {
   selectedId: ()=>selected?selected.id:null,
   panelOpen: ()=>infoEl.classList.contains('open'),
   visibleCount: ()=>world.children.filter(m=>m.visible!==false).length,
+  errs: ()=>window.__errs,
+  entryBox: (id)=>{ const e=entries.find(x=>x.id===id); if(!e||!e.bbox) return null;
+    const c=e.bbox.getCenter(new THREE.Vector3()), s=e.bbox.getSize(new THREE.Vector3());
+    return {min:e.bbox.min.toArray().map(Math.round), max:e.bbox.max.toArray().map(Math.round),
+            c:c.toArray().map(Math.round), s:s.toArray().map(Math.round)}; },
+  v2:{
+    tourStart: startTour, tourGoto: i=>{ tourIdx=i; renderTour(); }, tourStep: ()=>tourIdx, tourQuit: quitTour,
+    tourOpen: ()=>document.getElementById('tourbar').classList.contains('open'),
+    quizStart: startQuiz, quizState: ()=>quiz?{active:quiz.active,idx:quiz.idx,score:quiz.score,n:quiz.qs.length}:null,
+    quizAnswer: ok=>answerQuiz(ok,null), quizQuit: quitQuiz,
+    quizOpen: ()=>document.getElementById('quizbox').classList.contains('open'),
+    plexusOpen: openPlexus, plexusClose: closePlexus, plexusTrace: tracePlexus,
+    plexusIsOpen: ()=>document.getElementById('plexusview').classList.contains('open'),
+    clinOpen: openClinique, clinClose: closeClinique, clinRun: i=>runClinique(CLIN[i]),
+    clinIsOpen: ()=>document.getElementById('clinique').classList.contains('open'),
+  },
   _dbg: {THREE, scene, camera, renderer, world, controls}
 };
 </script>
