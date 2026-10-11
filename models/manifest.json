@@ -1,0 +1,305 @@
+[
+ {
+  "id": "clavicule",
+  "file": "clavicule.glb",
+  "nom": "Clavicule",
+  "layer": "os",
+  "couleur": "#e8dcc3",
+  "desc": "Limite antérieure du sommet du creux axillaire (avec le muscle sous-clavier). L'artère axillaire naît de la sous-clavière au-dessous du milieu de la clavicule.",
+  "elements": [
+   "FJ3362"
+  ]
+ },
+ {
+  "id": "omoplate",
+  "file": "omoplate.glb",
+  "nom": "Omoplate (scapula)",
+  "layer": "os",
+  "couleur": "#e8dcc3",
+  "desc": "Paroi scapulaire : face antérieure de l'omoplate. Son bord supérieur et l'apophyse coracoïde limitent le sommet du creux axillaire en postéro-externe.",
+  "elements": [
+   "FJ3384"
+  ]
+ },
+ {
+  "id": "humerus",
+  "file": "humerus.glb",
+  "nom": "Humérus",
+  "layer": "os",
+  "couleur": "#e8dcc3",
+  "desc": "Paroi humérale : extrémité supérieure de l'humérus et apophyse coracoïde. La longue portion du triceps forme avec lui les espaces huméro- et omo-tricipitaux.",
+  "elements": [
+   "FJ3368"
+  ]
+ },
+ {
+  "id": "cage_thoracique",
+  "file": "cage_thoracique.glb",
+  "nom": "Cage thoracique (côtes 1-9)",
+  "layer": "os",
+  "couleur": "#ddd2b8",
+  "desc": "Paroi thoracique : partie latérale de la cage thoracique. Le plan costo-intercostal sépare le creux axillaire du fascia endothoracique, de la plèvre et du poumon — ce qui explique les exsufflations des pneumothorax au niveau du creux axillaire.",
+  "elements": [
+   "FJ3153",
+   "FJ3178",
+   "FJ3330",
+   "FJ3331",
+   "FJ3332",
+   "FJ3334",
+   "FJ3336",
+   "FJ3338",
+   "FJ3340",
+   "FJ3342",
+   "FJ3344",
+   "FJ3346",
+   "FJ3347",
+   "FJ3348"
+  ]
+ },
+ {
+  "id": "sternum",
+  "file": "sternum.glb",
+  "nom": "Sternum",
+  "layer": "os",
+  "couleur": "#e8dcc3",
+  "desc": "Repère médian antérieur, en dedans de la paroi thoracique du creux axillaire.",
+  "elements": [
+   "FJ3290"
+  ]
+ },
+ {
+  "id": "grand_pectoral",
+  "file": "grand_pectoral.glb",
+  "nom": "Grand pectoral",
+  "layer": "muscles",
+  "couleur": "#b03a2e",
+  "desc": "Paroi pectorale (plan superficiel) : chef claviculaire (moitié médiale de la clavicule) et chef sterno-costal ; se termine sur la lèvre latérale de la gouttière bicipitale. Son bord inférieur marque la terminaison de l'artère axillaire (→ artère humérale).",
+  "elements": [
+   "FJ1446",
+   "FJ1464"
+  ]
+ },
+ {
+  "id": "petit_pectoral",
+  "file": "petit_pectoral.glb",
+  "nom": "Petit pectoral",
+  "layer": "muscles",
+  "couleur": "#a93226",
+  "desc": "Plan profond : de la face latérale des 3e, 4e et 5e côtes à l'apophyse coracoïde. Enveloppé par l'aponévrose clavi-pectoro-axillaire.",
+  "elements": [
+   "FJ1456"
+  ]
+ },
+ {
+  "id": "dentele_anterieur",
+  "file": "dentele_anterieur.glb",
+  "nom": "Dentelé antérieur",
+  "layer": "muscles",
+  "couleur": "#a93226",
+  "desc": "De la face latérale des 9 premières côtes au bord spinal de l'omoplate. Sa 1ère digitation limite le sommet du creux axillaire en dedans.",
+  "elements": [
+   "FJ1459"
+  ]
+ },
+ {
+  "id": "coraco_brachial",
+  "file": "coraco_brachial.glb",
+  "nom": "Coraco-brachial",
+  "layer": "muscles",
+  "couleur": "#a93226",
+  "desc": "Paroi humérale : de l'apophyse coracoïde au 1/3 inférieur de la diaphyse humérale. Sa courte portion du biceps voisine s'insère aussi sur la coracoïde.",
+  "elements": [
+   "FJ1488"
+  ]
+ },
+ {
+  "id": "sous_scapulaire",
+  "file": "sous_scapulaire.glb",
+  "nom": "Sous-scapulaire",
+  "layer": "muscles",
+  "couleur": "#a93226",
+  "desc": "Paroi scapulaire (plan musculaire) : de la fosse sous-scapulaire au trochin.",
+  "elements": [
+   "FJ1504"
+  ]
+ },
+ {
+  "id": "grand_rond",
+  "file": "grand_rond.glb",
+  "nom": "Grand rond",
+  "layer": "muscles",
+  "couleur": "#a93226",
+  "desc": "Portion terminale s'insérant sur la lèvre médiale de la gouttière bicipitale (avec le grand dorsal). Délimite les espaces vasculaires postérieurs.",
+  "elements": [
+   "FJ1507"
+  ]
+ },
+ {
+  "id": "biceps_brachial",
+  "file": "biceps_brachial.glb",
+  "nom": "Biceps brachial",
+  "layer": "muscles",
+  "couleur": "#a93226",
+  "desc": "La courte portion s'insère sur l'apophyse coracoïde puis se réunit à la longue portion. L'aponévrose de ces muscles se continue avec l'aponévrose clavi-pectoro-axillaire.",
+  "elements": [
+   "FJ1512",
+   "FJ1478"
+  ]
+ },
+ {
+  "id": "triceps_brachial",
+  "file": "triceps_brachial.glb",
+  "nom": "Triceps brachial",
+  "layer": "muscles",
+  "couleur": "#a93226",
+  "desc": "Sa longue portion forme avec l'humérus trois ouvertures : espaces huméro-tricipital, omo-tricipital et inférieur — livrant passage aux artères circonflexes et au nerf axillaire.",
+  "elements": [
+   "FJ1477",
+   "FJ1479",
+   "FJ1480"
+  ]
+ },
+ {
+  "id": "artere_sous_claviere",
+  "file": "artere_sous_claviere.glb",
+  "nom": "Artère sous-clavière",
+  "layer": "arteres",
+  "couleur": "#e74c3c",
+  "desc": "Devient l'artère axillaire au-dessous du milieu de la clavicule (lésion possible lors d'une fracture de la 1ère côte).",
+  "elements": [
+   "FJ1656",
+   "FJ1657",
+   "FJ1661",
+   "FJ1672",
+   "FJ1675",
+   "FJ1677",
+   "FJ1678"
+  ]
+ },
+ {
+  "id": "artere_axillaire",
+  "file": "artere_axillaire.glb",
+  "nom": "Artère axillaire",
+  "layer": "arteres",
+  "couleur": "#ff2d1a",
+  "desc": "Fait suite, au-dessous du milieu de la clavicule, à l'artère sous-clavière. Trajet : oblique en bas et en dehors, accompagnée par la veine axillaire en dedans. Terminaison : devient l'artère humérale à la hauteur du bord inférieur du grand pectoral. Collatérales : thoracique supérieure, acromio-thoracique, mammaire externe (thoracique latérale), sous-scapulaire, tronc des circonflexes (antérieure et postérieure).",
+  "elements": [
+   "FJ2268"
+  ]
+ },
+ {
+  "id": "artere_brachiale",
+  "file": "artere_brachiale.glb",
+  "nom": "Artère humérale (brachiale)",
+  "layer": "arteres",
+  "couleur": "#e74c3c",
+  "desc": "Fait suite à l'artère axillaire au bord inférieur du grand pectoral.",
+  "elements": [
+   "FJ2271"
+  ]
+ },
+ {
+  "id": "artere_thoracique_laterale",
+  "file": "artere_thoracique_laterale.glb",
+  "nom": "Artère thoracique latérale (mammaire externe)",
+  "layer": "arteres",
+  "couleur": "#e06655",
+  "desc": "Collatérale de l'artère axillaire, vascularisant la paroi thoracique latérale.",
+  "elements": [
+   "FJ1938"
+  ]
+ },
+ {
+  "id": "artere_sous_scapulaire",
+  "file": "artere_sous_scapulaire.glb",
+  "nom": "Artère sous-scapulaire",
+  "layer": "arteres",
+  "couleur": "#e06655",
+  "desc": "Collatérale de l'artère axillaire, la plus volumineuse, vers la paroi scapulaire.",
+  "elements": [
+   "FJ2273",
+   "FJ2298",
+   "FJ2305"
+  ]
+ },
+ {
+  "id": "circonflexe_anterieure",
+  "file": "circonflexe_anterieure.glb",
+  "nom": "Artère circonflexe antérieure",
+  "layer": "arteres",
+  "couleur": "#e06655",
+  "desc": "Branche du tronc des circonflexes (collatérale de l'artère axillaire), contournant le col chirurgical de l'humérus en avant.",
+  "elements": [
+   "FJ2264"
+  ]
+ },
+ {
+  "id": "circonflexe_posterieure",
+  "file": "circonflexe_posterieure.glb",
+  "nom": "Artère circonflexe postérieure",
+  "layer": "arteres",
+  "couleur": "#e06655",
+  "desc": "Branche du tronc des circonflexes, passant avec le nerf axillaire par l'espace huméro-tricipital (quadrilatère) vers la région deltoïdienne.",
+  "elements": [
+   "FJ2291",
+   "FJ2292"
+  ]
+ },
+ {
+  "id": "branches_acromio_thoracique",
+  "file": "branches_acromio_thoracique.glb",
+  "nom": "Branches de l'acromio-thoracique",
+  "layer": "arteres",
+  "couleur": "#e06655",
+  "desc": "Branches pectorale, acromiale et deltoïdienne de l'artère acromio-thoracique, collatérale de l'artère axillaire. (Le tronc lui-même n'est pas modélisé dans BodyParts3D.)",
+  "elements": [
+   "FJ2361",
+   "FJ2282",
+   "FJ2263"
+  ]
+ },
+ {
+  "id": "veine_axillaire",
+  "file": "veine_axillaire.glb",
+  "nom": "Veine axillaire",
+  "layer": "veines",
+  "couleur": "#2e86de",
+  "desc": "Confluence des 2 veines humérales et de la veine basilique. Trajet : oblique en haut et en dedans. Terminaison : au-dessous du milieu de la clavicule, devenant veine sous-clavière. Branches affluentes : satellites des artères.",
+  "elements": [
+   "FJ2269"
+  ]
+ },
+ {
+  "id": "veine_sous_claviere",
+  "file": "veine_sous_claviere.glb",
+  "nom": "Veine sous-clavière",
+  "layer": "veines",
+  "couleur": "#2e86de",
+  "desc": "Fait suite à la veine axillaire au-dessous du milieu de la clavicule.",
+  "elements": [
+   "FJ3587"
+  ]
+ },
+ {
+  "id": "veine_basilique",
+  "file": "veine_basilique.glb",
+  "nom": "Veine basilique",
+  "layer": "veines",
+  "couleur": "#5dade2",
+  "desc": "Affluent de la veine axillaire (avec les veines humérales).",
+  "elements": [
+   "FJ2270"
+  ]
+ },
+ {
+  "id": "veine_brachiale",
+  "file": "veine_brachiale.glb",
+  "nom": "Veine humérale (brachiale)",
+  "layer": "veines",
+  "couleur": "#5dade2",
+  "desc": "Satellite de l'artère humérale ; conflue avec la basilique pour former la veine axillaire.",
+  "elements": [
+   "FJ2341"
+  ]
+ }
+]
